@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Ladder@这是一个关于Hugo的简短介绍">
+    <meta name="author" content="你的名字">
+    <link rel="canonical"
+        href="https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/timesurl%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+
+    <link rel="alternate" type="application/rss+xml" href="https://QiushiStaff.github.io/myblog//index.xml" title="我的博客">
+
+    
+
+
+    <meta property="og:url" content="https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/timesurl%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+  <meta property="og:site_name" content="我的博客">
+  <meta property="og:title" content="TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）">
+  <meta property="og:description" content="这是一个关于Hugo的简短介绍">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2023-10-27T10:30:00+08:00">
+    <meta property="article:modified_time" content="2023-10-27T10:30:00+08:00">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）">
+  <meta name="twitter:description" content="这是一个关于Hugo的简短介绍">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "https://QiushiStaff.github.io/myblog/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）",
+      "item": "https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/timesurl%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）",
+  "name": "TimesURL（AAAI, 2023, Github:https:\/\/github.com\/Alrash\/TimesURL）",
+  "description": "这是一个关于Hugo的简短介绍",
+  "keywords": [
+    
+  ],
+  "articleBody": "TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL） Introduction 出发点： ​\t学习信息丰富且通用的时间序列表示对于下游任务是必要的。\n现状： ​\t自监督对比学习（SSCL）在视觉、NLP领域中取得成功。但是在时间序列中存在问题。具体来说，目前缺乏通用的时间序列表示学习方法基于对比学习。这是由于针对具体任务，往往需要时间序列中某种信息。\n文章关注点： ​\t1、设计针对正对的增强方法。\n​\t2、构建（（hard）negative）对。\n​\t3、用于借口任务(一种自监督学习策略，用于在没有标注数据的情况下训练模型)的SSCL损失。\n现在存在的问题： ​\t1、现有的数据增强方法引入不恰当的归纳偏差。现有方法往往在对时间序列数据增强时，破坏序列中的语义信息，因此这种增强无法捕捉到有效的特征。\n​\t2、硬负样本是模型难以正确分类的负样本，通常与正样本在特征空间中非常接近，训练过程中特别关注这些样本，可以使模型更好地泛化到新数据。现有的时序文章中并没有探索硬负样本的使用。易负样本是模型可以轻易正确分类的负样本，与正样本在特征空间中有着明显的区别。锚点是用作参考点，与正负样本一起使用，来训练模型学习区分不同类别或实体，比如一个场景：模型的目标是将锚点与正样本之间的距离最小化，同时将锚点与负样本之间的距离最大化，从而学会区分不同的对象或类别。\n​\t由于局部平滑性和马尔可夫特性，大多数时间序列片段可被视为易负样本。这些片段往往与锚点表现出语义上的不相似性，而且只贡献了很小的梯度，因此无法提供有用的判别信息。（个人理解：因为差距很大，所以太好区分了，所以没啥用）。虽然纳入少量与锚点语义相似但不完全相同的硬负样本有助于改进和加快学习（Xu 等人，2022 年；Cai 等人，2020 年），但它们的效果被大量的易负样本所掩盖。\n​\t3、之前的方法分别关注从片段级捕获的细粒度信息用于预测、异常检测任务、或者实例级信息（粗粒度信息），目的在于推动整个序列的目标。如果要学习通用的表示特征，上述两个信息都应该被包含。\n​\t注：矛盾学习：在无监督领域，通过比较样本之间的相似性和差异性来学习数据的有效表示。\n那么如何解决的呢？ ​\t1、不破坏时间序列中的语义信息==》一种新的基于频率-时间的增强方法（FTAug），时域裁剪和频域混频的结合。\n​\t2、引入硬负样本，提高对比学习的性能。==》我们精心设计了双重Universums作为硬负样本。它是嵌入空间中的一种特定锚混合，每次都会将特定的正样本（锚）与负样本混合。我们设计的双重Universums分别在实例维度和时间维度上生成，可作为特殊的高质量硬负样本，提高对比学习的性能。\n​\t3、单纯的对比学习只能捕捉到一个层次的信息。==》我们联合优化了对比学习和时间重构，以捕捉和利用分段和实例层面的信息。\n​\t总结：1、2两点，主要关注的怎么构建对比学习中的正负对。第三点应该是关注怎么设计损失函数。\n注：自监督对比学习旨在从数据的不同增强视图中学习不变表征。这是另一种针对未标注数据的表征学习方法，适用于设计好的前置任务。 Method ​\t数据增强：$原始序列、X \\xrightarrow{\\text{FTAug}}X^。掩码序列, XM \\xrightarrow{\\text{nihao}} X^M$。\n​\t$(X,X^)用于对比学习。(XM,X^M)$用于时间重构。\nFTAug方法 ​\t注：对比学习的一个关键组成部分时选择合适的增强方法，通常会在增强方法中添加一些先验知识，以构建可行的正样本，帮助编码器学习稳健且具有区分性的表征。\n​\t之前的方法经常在增强的过程中，添加强烈的假设，可能会破坏时间序列的时间关系和语义一致性。因此，本文选了上下文一致性策略，该策略将两个增强上下文中同一时间戳的表征视为正对。方法具体细节如下：\n混频：\n​\t$x_i\\xrightarrow{FTT}$各个频率的信息，用同一批次另一个随机训练实例x_k中相同频率的部分替换$\\xrightarrow{反向FTT}$还原为时间序列。在样本之间交换频率成分不会引入意外噪声或人为周期性，可以提供更可靠的增强功能，以保留数据的语义特征。\n随机裁剪：\n​\t随机裁剪是上下文一致性策略的关键步骤。对于每个实例 $x_i$，我们随机抽取两个重叠的时间片段 $[a1, b1]、[a2, b2]$，使得$ 0 \u003c a1 ≤ a2 ≤ b1 ≤ b2 ≤ T$。最终，所提出的 FTAug 可以保持时间序列的重要时间关系和语义一致性，因此对各种任务都有帮助。值得一提的是，FTAug 仅适用于训练过程。\n双重Universums学习 ​\tUniversums：在机器学习中，Universum 是一种特殊的数据集，用于帮助模型学习更有意义的特征。它通常包含与目标任务相关但不属于目标任务类别的样本。\n​\t上图 中 UEA 存档中的 ERing 数据集（Bagnall 等人，2018 年）为例，对于每个正锚（红色方形），相应的负样本（灰色标记）包含许多易负样本和少数硬负样本，即许多负样本距离太远，无法对对比损失做出贡献。\n​\t目前这个位置没看明白到底在干嘛，为什么要这么构建，似乎是为了构建距离锚点更近的数据点，用到训练中来，但是没有搞明白到底是怎么用的，然后怎么设计这个数据集的，一堆问题。？？？？\n$ A \\xrightarrow{\\text{text above}} B$\n",
+  "wordCount" : "2105",
+  "inLanguage": "zh",
+  "datePublished": "2023-10-27T10:30:00+08:00",
+  "dateModified": "2023-10-27T10:30:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "你的名字"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/timesurl%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://QiushiStaff.github.io/myblog/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" href="/images/avatar.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/avatar.png">
+
+<link rel="manifest" href="/images/avatar.png">
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" />
+
+    
+    
+    <link rel="stylesheet" href="/myblog/css/main.min.ec28f09e946fc0df77c187fcd0d0ebde58fca6de8efb8e1620f3d45c32d4da88.css" integrity="sha256-7CjwnpRvwN93wYf80NDr3lj8pt6O&#43;44WIPPUXDLU2og="
+        crossorigin="anonymous" media="screen" />
+
+    
+    <link rel="stylesheet" href="/css/custom.css">
+
+    
+    <link rel="stylesheet" href="/myblog/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/myblog/js/highlight.min.min.65a3017a8aabe1f9330e70527075c8d51bc9634d5cac35077af03588c1df8078.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    </head><body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/myblog">
+            
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/myblog/">首页</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/myblog/blog">所有文章</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<div class="blog-single-container">
+    
+    <aside class="sidebar-toc">
+        <div class="toc-title">目录</div>
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#timesurlaaai-2023-githubhttpsgithubcomalrashtimesurl">TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）</a></li>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#method">Method</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </aside>
+
+    <article class="blog-single">
+        <header class="blog-title">
+            <h1>TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）</h1>
+        </header>
+
+        <p>
+  <small>
+    2023年10月27日&nbsp;· 2105 字&nbsp;· 5 分钟</small>
+
+  
+<p>
+
+        <section class="blog-content">
+            <h3 id="timesurlaaai-2023-githubhttpsgithubcomalrashtimesurl">TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）</h3>
+<h3 id="introduction">Introduction</h3>
+<h5 id="出发点">出发点：</h5>
+<p>​	学习<strong>信息丰富</strong>且<strong>通用</strong>的时间序列表示对于<strong>下游任务</strong>是必要的。</p>
+<h5 id="现状">现状：</h5>
+<p>​	自监督对比学习（SSCL）在视觉、NLP领域中取得成功。但是在时间序列中存在问题。具体来说，目前缺乏通用的时间序列表示学习方法基于对比学习。这是由于针对具体任务，往往需要时间序列中某种信息。</p>
+<h5 id="文章关注点">文章关注点：</h5>
+<p>​	1、设计针对正对的增强方法。</p>
+<p>​	2、构建（（hard）negative）对。</p>
+<p>​	3、用于借口任务(一种自监督学习策略，用于在没有标注数据的情况下训练模型)的SSCL损失。</p>
+<h5 id="现在存在的问题">现在存在的问题：</h5>
+<p>​	1、现有的数据增强方法引入不恰当的归纳偏差。现有方法往往在对时间序列数据增强时，破坏序列中的语义信息，因此这种增强无法捕捉到有效的特征。</p>
+<p>​	2、<strong>硬负样本</strong>是模型难以正确分类的负样本，通常与正样本在特征空间中非常接近，训练过程中特别关注这些样本，可以使模型更好地泛化到新数据。现有的时序文章中并没有探索硬负样本的使用。<strong>易负样本</strong>是模型可以轻易正确分类的负样本，与正样本在特征空间中有着明显的区别。<strong>锚点</strong>是用作参考点，与正负样本一起使用，来训练模型学习区分不同类别或实体，比如一个场景：模型的目标是将锚点与正样本之间的距离最小化，同时将锚点与负样本之间的距离最大化，从而学会区分不同的对象或类别。</p>
+<p>​	由于局部平滑性和马尔可夫特性，<strong>大多数时间序列片段</strong>可被视为易负样本。这些片段往往与锚点表现出语义上的不相似性，而且只贡献了很小的梯度，因此无法提供有用的判别信息。（个人理解：因为差距很大，所以太好区分了，所以没啥用）。虽然纳入少量与锚点语义相似但不完全相同的硬负样本有助于改进和加快学习（Xu 等人，2022 年；Cai 等人，2020 年），但它们的效果被大量的易负样本所掩盖。</p>
+<p>​	3、之前的方法分别关注从片段级捕获的<strong>细粒度信息</strong>用于预测、异常检测任务、或者实例级信息（<strong>粗粒度信息</strong>），目的在于推动整个序列的目标。如果要学习通用的表示特征，上述两个信息都应该被包含。</p>
+<p>​	注：矛盾学习：在无监督领域，通过比较样本之间的<strong>相似性</strong>和差异性来学习数据的有效表示。</p>
+<h5 id="那么如何解决的呢">那么如何解决的呢？</h5>
+<p>​	1、不破坏时间序列中的语义信息==》一种新的基于频率-时间的增强方法（FTAug），时域裁剪和频域混频的结合。</p>
+<p>​	2、引入硬负样本，提高对比学习的性能。==》我们精心设计了双重Universums作为硬负样本。它是嵌入空间中的一种特定锚混合，每次都会将特定的正样本（锚）与负样本混合。我们设计的双重Universums分别在<strong>实例维度</strong>和<strong>时间维度</strong>上生成，可作为特殊的高质量硬负样本，提高对比学习的性能。</p>
+<p>​	3、单纯的对比学习只能捕捉到一个层次的信息。==》我们联合优化了对比学习和时间重构，以捕捉和利用<strong>分段</strong>和<strong>实例</strong>层面的信息。</p>
+<p>​	<strong>总结</strong>：1、2两点，主要关注的怎么构建对比学习中的正负对。第三点应该是关注怎么设计损失函数。</p>
+<h5 id="注自监督对比学习旨在从数据的不同增强视图中学习不变表征这是另一种针对未标注数据的表征学习方法适用于设计好的前置任务">注：自监督对比学习旨在从数据的不同增强视图中学习不变表征。这是另一种针对未标注数据的表征学习方法，适用于设计好的前置任务。</h5>
+<p><img src="../../article_images/TimesURL.png" alt="image-20250108222026087"></p>
+<h3 id="method">Method</h3>
+<p>​		数据增强：$原始序列、X \xrightarrow{\text{FTAug}}X^<code>。掩码序列, XM \xrightarrow{\text{nihao}} X^</code>M$。</p>
+<p>​		$(X,X^<code>)用于对比学习。(XM,X^</code>M)$用于时间重构。</p>
+<h4 id="ftaug方法">FTAug方法</h4>
+<p>​	注：对比学习的一个关键组成部分时选择合适的增强方法，通常会在增强方法中添加一些先验知识，以构建可行的正样本，帮助编码器学习稳健且具有区分性的表征。</p>
+<p>​	之前的方法经常在增强的过程中，添加强烈的假设，可能会破坏时间序列的时间关系和语义一致性。因此，本文选了上下文一致性策略，该策略将<strong>两个增强上下文中同一时间戳的表征视为正对</strong>。方法具体细节如下：</p>
+<ol>
+<li>
+<p>混频：</p>
+<p>​	$x_i\xrightarrow{FTT}$各个频率的信息，用同一批次另一个随机训练实例x_k中相同频率的部分替换$\xrightarrow{反向FTT}$还原为时间序列。在样本之间交换频率成分不会引入意外噪声或人为周期性，可以提供更可靠的增强功能，以保留数据的语义特征。</p>
+</li>
+<li>
+<p>随机裁剪：</p>
+<p>​	随机裁剪是上下文一致性策略的关键步骤。对于每个实例 $x_i$，我们随机抽取两个重叠的时间片段 $[a1, b1]、[a2, b2]$，使得$ 0 &lt; a1 ≤ a2 ≤ b1 ≤ b2 ≤ T$。最终，所提出的 FTAug 可以保持时间序列的重要时间关系和语义一致性，因此对各种任务都有帮助。<strong>值得一提的是，FTAug 仅适用于训练过程</strong>。</p>
+</li>
+</ol>
+<hr>
+<h4 id="双重universums学习"><strong>双重Universums学习</strong></h4>
+<blockquote>
+<p>​	 <strong>Universums</strong>：在机器学习中，Universum 是一种特殊的数据集，用于帮助模型学习更有意义的特征。它通常包含与目标任务相关但不属于目标任务类别的样本。</p>
+</blockquote>
+<p><img src="../article_images/image-20250109170603696.png" alt="image-20250109170603696"></p>
+<p>​	上图 中 UEA 存档中的 ERing 数据集（Bagnall 等人，2018 年）为例，对于每个正锚（红色方形），相应的负样本（灰色标记）包含许多易负样本和少数硬负样本，即许多负样本距离太远，无法对对比损失做出贡献。</p>
+<p>​	目前这个位置没看明白到底在干嘛，为什么要这么构建，似乎是为了构建距离锚点更近的数据点，用到训练中来，但是没有搞明白到底是怎么用的，然后怎么设计这个数据集的，一堆问题。？？？？</p>
+<p>$  A \xrightarrow{\text{text above}} B$</p>
+
+        </section>
+
+        
+
+
+        
+        
+    </article>
+</div>
+
+        </div><footer class="footer">
+  <p>&copy; 2026 <a href="https://QiushiStaff.github.io/myblog/">我的博客</a>
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo️️</a>
+    <a href="https://github.com/guangzhengli/hugo-theme-ladder" rel="noopener" target="_blank">Ladder</a>
+️  </p>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.5376 22.7916C11.0152 22.7207 22.5795 21.1781 22.0978 10.4211C22.0536 9.43274 21.9303 8.53367 21.7387 7.71865M10.5376 22.7916C16.876 22.3728 20.0969 19.8899 21.5383 16.9142M10.5376 22.7916C9.7707 22.9055 8.97982 22.8964 8.19743 22.7725M21.7387 7.71865C21.4988 6.69828 21.1518 5.80967 20.7188 5.04257M21.7387 7.71865C22.6022 10.1105 23.0542 13.7848 21.5383 16.9142M20.7188 5.04257C17.1684 -1.24629 7.83127 0.632493 4.27577 5.04257C2.88063 6.77451 -0.0433281 11.1668 1.38159 16.6571C2.27481 20.0988 5.17269 22.2936 8.19743 22.7725M20.7188 5.04257C22.0697 6.9404 24.0299 11.3848 22.3541 15.4153M21.5383 16.9142C21.8737 16.4251 22.1428 15.9235 22.3541 15.4153M8.19743 22.7725C12.1971 23.4683 20.6281 22.971 22.3541 15.4153M14 10.945C13.3836 10.289 12.003 8.63215 11.2034 7.04814C11.1703 6.98257 11.0247 6.98456 10.9937 7.05061C10.5221 8.05496 9.07362 9.92941 8 10.945M11.0333 7.44444C10.9392 9.86549 11 15 12 17" stroke="currentColor" stroke-linecap="round"/>
+    </svg>
+</a>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="/myblog/main.min.cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e.js" integrity="sha512-z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP&#43;DGNKHfuwvY7kxvUdBeoGlODJ6&#43;SfaPg==" crossorigin="anonymous" defer></script></html>

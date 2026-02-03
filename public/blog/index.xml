@@ -2,9 +2,303 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogs on 我的博客</title>
-    <link>https://example.org/blog/</link>
+    <link>https://QiushiStaff.github.io/myblog/blog/</link>
     <description>Recent content in Blogs on 我的博客 created by </description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language><atom:link href="https://example.org/blog/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 27 Oct 2023 10:30:00 +0800</lastBuildDate><atom:link href="https://QiushiStaff.github.io/myblog/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DCdetector：用于时间序列异常检测的双重注意对比表征学习（2023，KDD，SCI一区，有代码）</title>
+      <link>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/dcdetector_-dual-attention-contrastive-representation-learning-for-time-series-anomaly-detection/</link>
+      <pubDate>Fri, 27 Oct 2023 10:30:00 +0800</pubDate>
+      
+      <guid>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/dcdetector_-dual-attention-contrastive-representation-learning-for-time-series-anomaly-detection/</guid>
+      <description>&lt;h1 id=&#34;dcdetector用于时间序列异常检测的双重注意对比表征学习2023kddsci一区有代码&#34;&gt;DCdetector：用于时间序列异常检测的双重注意对比表征学习（2023，KDD，SCI一区，有代码）&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;..%5C..%5Carticle_images%5C1736487673881-9e5fe903-b6c7-4aac-bb3b-868ea0c3a118.png&#34; alt=&#34;框架图&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;背景:&lt;/strong&gt; 时间序列异常检测在工业监测、金融欺诈检测、故障诊断等多个领域具有重要意义。随着传感器技术发展，大量时间序列数据被收集，及时发现异常对保障安全和避免经济损失极为重要。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;挑战：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;什么是&lt;strong&gt;异常难以定义&lt;/strong&gt;。因此有标签的数据很难拿到。所以，大多数有监督和半监督的方法就不适用。&lt;/li&gt;
+&lt;li&gt;异常检测模型应考虑时间序列数据的时间、多维和非平稳特征 [78]。多维性描述了多元时间序列中维度之间通常存在依赖关系，非平稳性意味着时间序列的统计特征不稳定。具体来说，时间依赖性意味着相邻点彼此之间存在潜在的依赖性。尽管每个点都应该标记为正常或异常，&lt;strong&gt;但将单个点视为样本是不合理的。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;之前方法的问题：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;大多数的有监督和半监督方法不能处理标签数据少的问题，难以识别之前从没出现过的异常。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;基于重建的模型通过正常数据构建一个模型，因此这个模型不能重建的数据就是异常数据。在时间序列异常检测领域，由于异常数量的不确定，正常点和异常点可能出现在一个实例中，导致很难学习到一个干净、重建效果好的模型针对正常数据。（我的理解是，因为数据集中缺少对数据的评估，导致数据中可能存在异常数据，因此，难以构建重建效果好的模型）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;重建难以完全考虑潜在的模式信息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;创新点：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;​	构建了一种多尺度双重注意力对比表示学习模型，文章认为正常时间序列点&lt;strong&gt;共享潜在模式&lt;/strong&gt;，这意味着正常点与其他点具有很强的相关性，异常则不然（即与其他异常相关性较弱）。因为数据集中，异常数据点很少，因此我们学习到的重建模型处理异常数据时，异常数据的重建结果会很独特。从不同的角度学习异常的一致表示会很困难，但对于正常点来说很容易，所以没有通过构建正负对的方式，而是通过构造&lt;font style=&#34;color:rgb(25, 27, 31);&#34;&gt;Contrastive Learning的两个Positive Input也就是Patch-wise View和Point-wise View，然后将这两个View作为输入，用Contrastive Loss来训练，最后用阈值来识别Anomaly。&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;​	&lt;font style=&#34;color:#DF2A3F;&#34;&gt;对于正常点，即使在不同的视图中，它们中的大多数也会共享相同的潜在模式（强相关性不容易被破坏）。然而，由于异常很少见并且没有明确的模式，因此它们很难与正常点或它们之间共享潜在模式（即异常与其他点的相关性较弱）。因此，&lt;strong&gt;不同视图中正常点表示的差异很小，而异常点的差异很大。&lt;/strong&gt;&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;​	DCdetector不需要先验知识的输入，去识别正常|异常数据，因此，它可以识别从未出现过的异常。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;？？？文章中提到损失函数只是对比损失，没有重建损失,因此，减少了异常事件的干扰。
+
+answer：重构函数可以帮助我们检测异常，但是构建一个编码器和解码器并不容易，因为数据集中会存在异常。
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;​	&lt;strong&gt;异常分数的计算，我们根据两种表现形式的差异计算异常分数，并使用先验阈值进行异常判断。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;method&#34;&gt;&lt;strong&gt;Method&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;forward-process&#34;&gt;&lt;strong&gt;Forward Process：&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;多变量的时间序列数据被实例归一化==&amp;gt;它可以看作是全局信息的整合和调整，以及一种更稳定的训练处理方法。(为什么要做这一步的原因).&lt;/p&gt;
+&lt;h4 id=&#34;dual-attention-contrastive-structure&#34;&gt;&lt;strong&gt;Dual Attention Contrastive Structure：&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;两个视图：patch-wise | in-patch representations作为两个view。&lt;/p&gt;
+&lt;p&gt;本文的对比方法和正负对的方法不一样，和只使用正对的对比学习方法相似。&lt;/p&gt;
+&lt;p&gt;分块：P是patch的大小，N是patch的数量。&lt;/p&gt;
+&lt;p&gt;​		$X \in R^{T \times d} \rightarrow X \in R^{P \times N \times d}$ , $N \times d$ 这个矩阵包含，不同patch中同一位置的数据。&lt;/p&gt;
+&lt;h5 id=&#34;1patch-wise-representations块间的依赖关系通过多头注意力机制建模&#34;&gt;1、patch-wise representations：块间的依赖关系通过多头注意力机制建模。&lt;/h5&gt;
+&lt;p&gt;​			1. Embedded operation：&lt;/p&gt;
+&lt;p&gt;​			$X \in R^{P \times N \times d} \xrightarrow{embeded\ operation} X_N \in R^{N \times d_{model}}$&lt;/p&gt;
+&lt;p&gt;​	想当与把一个patch中多个时间步数据，合并为一个数据，然后一个patch就变成一个整体数据。相当与块内数据合并。$X_N$就是用一个$1 \times d_{model}$向量表示一个patch。&lt;/p&gt;
+&lt;p&gt;​			2. Calculate the patch-wise representation with multi-head attention weights：&lt;/p&gt;
+&lt;p&gt;​			$X_N \in R^{N \times d_{model}} \xrightarrow{multi-head\ attention} Attn_N $&lt;/p&gt;
+&lt;p&gt;​	这个位置就想当与把每个patch的向量表示和其他patch的向量表示进行注意力机制，获得更多信息的数据表示。向量维度可能会发生变化。&lt;/p&gt;
+&lt;h5 id=&#34;2in-patch-representations块内的依赖关系也通过多头注意力机制建模&#34;&gt;2、In-patch representations：块内的依赖关系也通过多头注意力机制建模。&lt;/h5&gt;
+&lt;p&gt;​	Embedded operation and calculate the in-patch representation：&lt;/p&gt;
+&lt;p&gt;​			$X \in R^{P \times N \times d} \xrightarrow{embeded\ operation} X_P \in R^{P \times d_{model}} \xrightarrow{multi-head attention} Attn_P$&lt;/p&gt;
+&lt;p&gt;​	相当与把不同patch中相同时间戳的内容合变成了一个patch。块内的表示每一行就是表示一个时间戳的向量表示。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注：1和2中注意力机制的参数是一样的。&lt;/p&gt;
+&lt;p&gt;注：我觉的文章中关于注意力机制的参数表示是有问题的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;up-sampling-and-multi-scale-design&#34;&gt;Up-sampling and Multi-scale Design：&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;../../article_images/image-20250208165813167-1739005098085-3.png&#34; alt=&#34;上采样的示例&#34;&gt;&lt;/p&gt;
+&lt;h5 id=&#34;1块间的上采样&#34;&gt;1、块间的上采样&lt;/h5&gt;
+&lt;p&gt;​	貌似是把$P^i$拆分为数据点。$N = Upsampling(Attn_N)$。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;​	这个位置不是很确定。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h5 id=&#34;2块内表示的上采样&#34;&gt;2、块内表示的上采样&lt;/h5&gt;
+&lt;p&gt;​	把每个数据点$p_i$重复放入每个patch中。$P = Upsampling(Attn_P)$。&lt;/p&gt;
+&lt;h4 id=&#34;representation-discrepancy&#34;&gt;Representation Discrepancy&lt;/h4&gt;
+&lt;p&gt;​	下面的话，可以好好理解理解。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;​	Patch-wise and in-patch branches output representations of the same input time series in two different views. As shown in Figure 2 (c), patch-wise sample representation learns a weighted combination between sample points in the same position from each patch. In-patch sample representation, on the other hand, learns a weighted combination between points within the same patch.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;​	基于双重注意力对比模块，我们获得同一个多变量时间序列的两个view。我们通过KL散度计算计算两个view的相似度。直觉是，由于异常很少见，并且正常点共享潜在模式，因此相同输入的表示应该是相似的。&lt;/p&gt;
+&lt;p&gt;​	损失函数：&lt;/p&gt;
+&lt;p&gt;​		$L_{\mathcal{P}}{\mathcal{P}, N; X} = \sum KL(\mathcal{P}, \text{Stopgrad}(N)) + KL(\text{Stopgrad}(N), \mathcal{P})$&lt;/p&gt;
+&lt;p&gt;​		$L_{\mathcal{N}}{\mathcal{P}, N; X} = \sum KL(\mathcal{N}, \text{Stopgrad}(P)) + KL(\text{Stopgrad}(P), \mathcal{N})$&lt;/p&gt;
+&lt;p&gt;​						$L=\frac{{L_\mathcal{N}-L_\mathcal{P}}}{len(N)}$&lt;/p&gt;
+&lt;p&gt;​	Stopgrad，是指Stop-gradient operation。我们在训练时是异步更新两个branch。&lt;/p&gt;
+&lt;p&gt;​	&lt;strong&gt;总结：毫无疑问，重建有助于检测行为与预期不符的异常。然而，构建一个合适的编码器和解码器来“重建”时间序列并不容易，因为它们预计会受到异常的干扰。此外，由于没有完全考虑潜在模式信息，表示能力受到限制。&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;异常分数计算&#34;&gt;异常分数计算&lt;/h4&gt;
+&lt;p&gt;​		$AnomalyScore(X) = \sum KL(\mathcal{P}, \text{Stopgrad}(N)) + KL(\mathcal{N},\text{Stopgrad}(P))$&lt;/p&gt;
+&lt;p&gt;​	&lt;span style=&#34;color: red;&#34;&gt;代码部分的参数更新思路如下，对于这样交替更新的思路不是很能理解。为什么一次反向传播，能实现两个分支的交替更新。&lt;/span&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# series_loss 计算部分
+series_loss += (
+    my_kl_loss(series[u], prior_norm.detach()) +  # 阻断 prior 分支梯度
+    my_kl_loss(prior_norm.detach(), series[u])     # 同上
+)
+
+# prior_loss 计算部分
+prior_loss += (
+    my_kl_loss(prior_norm, series[u].detach()) +  # 阻断 series 分支梯度
+    my_kl_loss(series[u].detach(), prior_norm)    # 同上
+)
+
+loss = prior_loss - series_loss  
+
+loss.backward()
+
+self.optimizer.step()
+&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;discussion-about-model-collapse&#34;&gt;Discussion about Model Collapse&lt;/h5&gt;
+&lt;p&gt;​	模型崩塌：指的是在自监督学习（Self-Supervised Learning）或无监督表示学习（Unsupervised Representation Learning）中，模型学到了一种&lt;strong&gt;退化的、无信息量的表示&lt;/strong&gt;，导致所有输入样本的嵌入（embedding）变得相似或趋于相同。这样，模型无法有效地区分不同的输入数据，学习到的特征就失去了区分度。&lt;/p&gt;
+&lt;p&gt;​	对比学习的输出向量Z，分解为中心向量o和残差向量r。中心向量理解为一个特征空间中，所有特征点的中心点的值。o决定输出向量，而r决定Z偏差中心点多少。&lt;/p&gt;
+&lt;p&gt;​									$Z=o+r$,&lt;/p&gt;
+&lt;p&gt;​	特征空间有特征挖掘算法决定也就是模型结构。而残差向量r是由输入数据决定。由于我们的模型是非对称结构所以我们可以避免模式崩塌的问题。&lt;/p&gt;
+&lt;p&gt;如果说两个分支是对称的（也就是结构、参数都相同），就会导致中心向量完全一致，毕竟是一个特征空间，而残差向量是由输入决定&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Channel Independence的作用以及操作？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;减少参数数量和过拟合问题， 简化 attention network。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;假设输入数据的形状为&lt;/span&gt; (batch_size, window_size, channels)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，例如&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，数据如下：&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Batch 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;1.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;2.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;3.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;4.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;5.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;6.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;7.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;7.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;7.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;8.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;9.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;10.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;11.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.3&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;11&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;12.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.3&lt;/span&gt;]   &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;时间步&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;重排操作&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x_patch_size &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rearrange&lt;/span&gt;(x_patch_size, &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;b l m &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; b m l&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x_patch_num &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rearrange&lt;/span&gt;(x_patch_num, &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;b l m &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; b m l&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;重排后的形状为&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，数据如下：&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Batch 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;1.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;7.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.1&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;通道&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;1.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;7.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.2&lt;/span&gt;],  &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;通道&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [&lt;span style=&#34;color:#ae81ff&#34;&gt;1.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;7.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.3&lt;/span&gt;]   &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;#&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;通道&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 假设 patch_size = 3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x_patch_size &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rearrange&lt;/span&gt;(x_patch_size, &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;b &lt;span style=&#34;color:#a6e22e&#34;&gt;m&lt;/span&gt; (n p) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; (b m) n p&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;, p&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;patch_size)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x_patch_num &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rearrange&lt;/span&gt;(x_patch_num, &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;b &lt;span style=&#34;color:#a6e22e&#34;&gt;m&lt;/span&gt; (p n) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; (b m) p n&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;, p&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;patch_size)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x_patch_size &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;的形状为&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，数据如下：&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# 通道 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [[&lt;span style=&#34;color:#ae81ff&#34;&gt;1.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3.1&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;4.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.1&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;7.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.1&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;10.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.1&lt;/span&gt;]],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# 通道 2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [[&lt;span style=&#34;color:#ae81ff&#34;&gt;1.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3.2&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;4.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.2&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;7.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.2&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;10.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.2&lt;/span&gt;]],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# 通道 3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [[&lt;span style=&#34;color:#ae81ff&#34;&gt;1.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3.3&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;4.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.3&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;7.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.3&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;10.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.3&lt;/span&gt;]]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x_patch_num &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;的形状为&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，数据如下：&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# 通道 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [[&lt;span style=&#34;color:#ae81ff&#34;&gt;1.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;7.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.1&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;2.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.1&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;3.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.1&lt;/span&gt;]],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# 通道 2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [[&lt;span style=&#34;color:#ae81ff&#34;&gt;1.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;7.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.2&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;2.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.2&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;3.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.2&lt;/span&gt;]],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# 通道 3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [[&lt;span style=&#34;color:#ae81ff&#34;&gt;1.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;7.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.3&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;2.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;11.3&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;3.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;9.3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12.3&lt;/span&gt;]]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;&lt;font style=&#34;color:rgb(25, 27, 31);&#34;&gt;为什么要做上采样?&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font style=&#34;color:rgb(25, 27, 31);&#34;&gt;Contrastive Loss要求输入大小一致，而这里从View1和View2拿到的Representation不一致所以要做一个上采样。&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;阈值怎么确定？&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;计算训练集的能量分数&lt;/font&gt;&lt;/strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;：首先，模型在训练集上计算每个样本的能量分数（&lt;/font&gt;&lt;code&gt;&amp;lt;font style=&amp;quot;color:rgb(64, 64, 64);&amp;quot;&amp;gt;train_energy&amp;lt;/font&amp;gt;&lt;/code&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;）。能量分数是模型输出的一个标量值，表示样本的异常程度。能量分数越高，表示样本越可能是异常的。&lt;/font&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;计算测试集的能量分数&lt;/font&gt;&lt;/strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;：然后，模型在测试集上计算每个样本的能量分数（&lt;/font&gt;&lt;code&gt;&amp;lt;font style=&amp;quot;color:rgb(64, 64, 64);&amp;quot;&amp;gt;test_energy&amp;lt;/font&amp;gt;&lt;/code&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;）。&lt;/font&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;确定阈值&lt;/font&gt;&lt;/strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;：将训练集和测试集的能量分数合并，然后根据设定的异常比例（&lt;/font&gt;&lt;code&gt;&amp;lt;font style=&amp;quot;color:rgb(64, 64, 64);&amp;quot;&amp;gt; anormly_ratio &amp;lt;/font&amp;gt;&lt;/code&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;）来确定阈值。具体来说，阈值是合并后的能量分数的第 &lt;/font&gt;&lt;code&gt;&amp;lt;font style=&amp;quot;color:rgb(64, 64, 64);&amp;quot;&amp;gt;(100 - anormly_ratio)&amp;lt;/font&amp;gt;&lt;/code&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt; 百分位数。合并训练集和测试集的能量分数可以更好地捕捉异常点的分布，从而设置一个更准确的阈值&lt;/font&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;应用阈值进行异常检测&lt;/font&gt;&lt;/strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;：在测试集上，将每个样本的能量分数与阈值进行比较。如果能量分数大于阈值，则认为该样本是异常的。&lt;/font&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;..%5Carticle_images%5C1736937936782-efe35092-3b8c-44bb-b65c-706f4472a12c.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.nlark.com/yuque/__latex/fc69d2868f1da397ea4ec06e256cccad.svg&#34; alt=&#34;image&#34;&gt;&lt;strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;中&lt;/font&gt;&lt;/strong&gt;&lt;img src=&#34;https://cdn.nlark.com/yuque/__latex/94e79ad0c1aabeafef9e2fc4af6adf66.svg&#34; alt=&#34;image&#34;&gt;&lt;strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;是什么？&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.nlark.com/yuque/__latex/94e79ad0c1aabeafef9e2fc4af6adf66.svg&#34; alt=&#34;image&#34;&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;是一个矩阵，表示多变量时间序列,异常得分是基于 &lt;/font&gt;&lt;img src=&#34;https://cdn.nlark.com/yuque/__latex/94e79ad0c1aabeafef9e2fc4af6adf66.svg&#34; alt=&#34;image&#34;&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;的表示结果计算的,公式中的 &lt;/font&gt;&lt;img src=&#34;https://cdn.nlark.com/yuque/__latex/ffd1905f6d4d60accedfa6b91be93ea9.svg&#34; alt=&#34;image&#34;&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;和 &lt;/font&gt;&lt;img src=&#34;https://cdn.nlark.com/yuque/__latex/459f3c80a50b7be28751b0869ef5386a.svg&#34; alt=&#34;image&#34;&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;分别表示两个不同视图（或模型）的输出分布,通过计算 KL 散度（Kullback-Leibler Divergence）来衡量两个分布之间的差异，从而得到异常得分。&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;怎么对比学习的呢？&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Patch-wise Representation表示分块之间的特征，捕捉不同分块之间的依赖关系&lt;/p&gt;
+&lt;p&gt;In-patch Representation表示分块内部的特征，捕捉每个分块内部的依赖关系&lt;/p&gt;
+&lt;p&gt;对比学习的实现主要体现在 KL 散度计算上。具体来说，对比学习通过 KL 散度衡量 &lt;code&gt;series&lt;/code&gt; 和 &lt;code&gt;prior&lt;/code&gt; 之间的差异，通过最小化这个损失函数，模型试图使&lt;code&gt;series&lt;/code&gt;和&lt;code&gt;prior&lt;/code&gt; 的表示更加一致。为什么可以这样做？&lt;/p&gt;
+&lt;p&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;背景就是&lt;/font&gt;&lt;font style=&#34;color:#DF2A3F;&#34;&gt;对于正常点，即使在不同的视图中，它们中的大多数也会共享相同的潜在模式（强相关性不容易被破坏）。如果异常点是会导致差异大。&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;为什么要共享权重？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font style=&#34;color:rgb(31, 35, 41);background-color:rgb(249, 250, 251);&#34;&gt;我的理解是在两个不同的view上的表现更加一致，提高模型的泛化能力。&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;Scale Dot-product Attention？&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font style=&#34;color:rgb(64, 64, 64);&#34;&gt;主要作用是通过动态分配注意力权重，捕捉输入序列中的全局依赖关系。&lt;/font&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）</title>
+      <link>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/timesurl%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 27 Oct 2023 10:30:00 +0800</pubDate>
+      
+      <guid>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/timesurl%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;h3 id=&#34;timesurlaaai-2023-githubhttpsgithubcomalrashtimesurl&#34;&gt;TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）&lt;/h3&gt;
+&lt;h3 id=&#34;introduction&#34;&gt;Introduction&lt;/h3&gt;
+&lt;h5 id=&#34;出发点&#34;&gt;出发点：&lt;/h5&gt;
+&lt;p&gt;​	学习&lt;strong&gt;信息丰富&lt;/strong&gt;且&lt;strong&gt;通用&lt;/strong&gt;的时间序列表示对于&lt;strong&gt;下游任务&lt;/strong&gt;是必要的。&lt;/p&gt;
+&lt;h5 id=&#34;现状&#34;&gt;现状：&lt;/h5&gt;
+&lt;p&gt;​	自监督对比学习（SSCL）在视觉、NLP领域中取得成功。但是在时间序列中存在问题。具体来说，目前缺乏通用的时间序列表示学习方法基于对比学习。这是由于针对具体任务，往往需要时间序列中某种信息。&lt;/p&gt;
+&lt;h5 id=&#34;文章关注点&#34;&gt;文章关注点：&lt;/h5&gt;
+&lt;p&gt;​	1、设计针对正对的增强方法。&lt;/p&gt;
+&lt;p&gt;​	2、构建（（hard）negative）对。&lt;/p&gt;
+&lt;p&gt;​	3、用于借口任务(一种自监督学习策略，用于在没有标注数据的情况下训练模型)的SSCL损失。&lt;/p&gt;
+&lt;h5 id=&#34;现在存在的问题&#34;&gt;现在存在的问题：&lt;/h5&gt;
+&lt;p&gt;​	1、现有的数据增强方法引入不恰当的归纳偏差。现有方法往往在对时间序列数据增强时，破坏序列中的语义信息，因此这种增强无法捕捉到有效的特征。&lt;/p&gt;
+&lt;p&gt;​	2、&lt;strong&gt;硬负样本&lt;/strong&gt;是模型难以正确分类的负样本，通常与正样本在特征空间中非常接近，训练过程中特别关注这些样本，可以使模型更好地泛化到新数据。现有的时序文章中并没有探索硬负样本的使用。&lt;strong&gt;易负样本&lt;/strong&gt;是模型可以轻易正确分类的负样本，与正样本在特征空间中有着明显的区别。&lt;strong&gt;锚点&lt;/strong&gt;是用作参考点，与正负样本一起使用，来训练模型学习区分不同类别或实体，比如一个场景：模型的目标是将锚点与正样本之间的距离最小化，同时将锚点与负样本之间的距离最大化，从而学会区分不同的对象或类别。&lt;/p&gt;
+&lt;p&gt;​	由于局部平滑性和马尔可夫特性，&lt;strong&gt;大多数时间序列片段&lt;/strong&gt;可被视为易负样本。这些片段往往与锚点表现出语义上的不相似性，而且只贡献了很小的梯度，因此无法提供有用的判别信息。（个人理解：因为差距很大，所以太好区分了，所以没啥用）。虽然纳入少量与锚点语义相似但不完全相同的硬负样本有助于改进和加快学习（Xu 等人，2022 年；Cai 等人，2020 年），但它们的效果被大量的易负样本所掩盖。&lt;/p&gt;
+&lt;p&gt;​	3、之前的方法分别关注从片段级捕获的&lt;strong&gt;细粒度信息&lt;/strong&gt;用于预测、异常检测任务、或者实例级信息（&lt;strong&gt;粗粒度信息&lt;/strong&gt;），目的在于推动整个序列的目标。如果要学习通用的表示特征，上述两个信息都应该被包含。&lt;/p&gt;
+&lt;p&gt;​	注：矛盾学习：在无监督领域，通过比较样本之间的&lt;strong&gt;相似性&lt;/strong&gt;和差异性来学习数据的有效表示。&lt;/p&gt;
+&lt;h5 id=&#34;那么如何解决的呢&#34;&gt;那么如何解决的呢？&lt;/h5&gt;
+&lt;p&gt;​	1、不破坏时间序列中的语义信息==》一种新的基于频率-时间的增强方法（FTAug），时域裁剪和频域混频的结合。&lt;/p&gt;
+&lt;p&gt;​	2、引入硬负样本，提高对比学习的性能。==》我们精心设计了双重Universums作为硬负样本。它是嵌入空间中的一种特定锚混合，每次都会将特定的正样本（锚）与负样本混合。我们设计的双重Universums分别在&lt;strong&gt;实例维度&lt;/strong&gt;和&lt;strong&gt;时间维度&lt;/strong&gt;上生成，可作为特殊的高质量硬负样本，提高对比学习的性能。&lt;/p&gt;
+&lt;p&gt;​	3、单纯的对比学习只能捕捉到一个层次的信息。==》我们联合优化了对比学习和时间重构，以捕捉和利用&lt;strong&gt;分段&lt;/strong&gt;和&lt;strong&gt;实例&lt;/strong&gt;层面的信息。&lt;/p&gt;
+&lt;p&gt;​	&lt;strong&gt;总结&lt;/strong&gt;：1、2两点，主要关注的怎么构建对比学习中的正负对。第三点应该是关注怎么设计损失函数。&lt;/p&gt;
+&lt;h5 id=&#34;注自监督对比学习旨在从数据的不同增强视图中学习不变表征这是另一种针对未标注数据的表征学习方法适用于设计好的前置任务&#34;&gt;注：自监督对比学习旨在从数据的不同增强视图中学习不变表征。这是另一种针对未标注数据的表征学习方法，适用于设计好的前置任务。&lt;/h5&gt;
+&lt;p&gt;&lt;img src=&#34;../../article_images/TimesURL.png&#34; alt=&#34;image-20250108222026087&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;method&#34;&gt;Method&lt;/h3&gt;
+&lt;p&gt;​		数据增强：$原始序列、X \xrightarrow{\text{FTAug}}X^&lt;code&gt;。掩码序列, XM \xrightarrow{\text{nihao}} X^&lt;/code&gt;M$。&lt;/p&gt;
+&lt;p&gt;​		$(X,X^&lt;code&gt;)用于对比学习。(XM,X^&lt;/code&gt;M)$用于时间重构。&lt;/p&gt;
+&lt;h4 id=&#34;ftaug方法&#34;&gt;FTAug方法&lt;/h4&gt;
+&lt;p&gt;​	注：对比学习的一个关键组成部分时选择合适的增强方法，通常会在增强方法中添加一些先验知识，以构建可行的正样本，帮助编码器学习稳健且具有区分性的表征。&lt;/p&gt;
+&lt;p&gt;​	之前的方法经常在增强的过程中，添加强烈的假设，可能会破坏时间序列的时间关系和语义一致性。因此，本文选了上下文一致性策略，该策略将&lt;strong&gt;两个增强上下文中同一时间戳的表征视为正对&lt;/strong&gt;。方法具体细节如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;混频：&lt;/p&gt;
+&lt;p&gt;​	$x_i\xrightarrow{FTT}$各个频率的信息，用同一批次另一个随机训练实例x_k中相同频率的部分替换$\xrightarrow{反向FTT}$还原为时间序列。在样本之间交换频率成分不会引入意外噪声或人为周期性，可以提供更可靠的增强功能，以保留数据的语义特征。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;随机裁剪：&lt;/p&gt;
+&lt;p&gt;​	随机裁剪是上下文一致性策略的关键步骤。对于每个实例 $x_i$，我们随机抽取两个重叠的时间片段 $[a1, b1]、[a2, b2]$，使得$ 0 &amp;lt; a1 ≤ a2 ≤ b1 ≤ b2 ≤ T$。最终，所提出的 FTAug 可以保持时间序列的重要时间关系和语义一致性，因此对各种任务都有帮助。&lt;strong&gt;值得一提的是，FTAug 仅适用于训练过程&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;双重universums学习&#34;&gt;&lt;strong&gt;双重Universums学习&lt;/strong&gt;&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;​	 &lt;strong&gt;Universums&lt;/strong&gt;：在机器学习中，Universum 是一种特殊的数据集，用于帮助模型学习更有意义的特征。它通常包含与目标任务相关但不属于目标任务类别的样本。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;../article_images/image-20250109170603696.png&#34; alt=&#34;image-20250109170603696&#34;&gt;&lt;/p&gt;
+&lt;p&gt;​	上图 中 UEA 存档中的 ERing 数据集（Bagnall 等人，2018 年）为例，对于每个正锚（红色方形），相应的负样本（灰色标记）包含许多易负样本和少数硬负样本，即许多负样本距离太远，无法对对比损失做出贡献。&lt;/p&gt;
+&lt;p&gt;​	目前这个位置没看明白到底在干嘛，为什么要这么构建，似乎是为了构建距离锚点更近的数据点，用到训练中来，但是没有搞明白到底是怎么用的，然后怎么设计这个数据集的，一堆问题。？？？？&lt;/p&gt;
+&lt;p&gt;$  A \xrightarrow{\text{text above}} B$&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>论文写作总结</title>
+      <link>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Fri, 27 Oct 2023 10:30:00 +0800</pubDate>
+      
+      <guid>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C%E6%80%BB%E7%BB%93/</guid>
+      <description>&lt;h3 id=&#34;摘要&#34;&gt;摘要&lt;/h3&gt;
+&lt;hr&gt;
+&lt;img src=&#34;https://QiushiStaff.github.io/myblog/assets/write_abstract.png&#34; alt=&#34;摘要示例&#34; style=&#34;zoom:150%;&#34; /&gt;
+&lt;ol&gt;
+&lt;li&gt;第一句话：出现了很多专业名词，应该先做铺垫。最开始用大家都熟悉的概念去引入。举例子：路径规划是一个热门的研究方向，没有考虑到交通事故和边缘服务能力的路径规划会影响车辆性能，例如什么什么。因此，研究整合边缘服务能力评估和事故检测的路径规划方法是有价值的。然而，现有工作对于&lt;em&gt;交通网络时空特征挖掘不充分&lt;/em&gt;（重新考虑应该原因，适合与gan），导致车辆难以完全规避车辆，同时缺乏对边缘服务器分布情况的分析，导致车辆难以获得边缘服务器提供的计算能力。 因此，我们设计了基于交通时空数据的异常事件检测模型，模型基于时空特征挖掘方法设计鉴别器，基于相似度差异构建判别器，两者通过对抗训练提升异常识别效果。此外，我们考虑车辆移动特性，设计了车辆路径边缘服务能力评估方法。基于此，我们的方法考虑边缘服务器的分布情况设计路经规划方法。&lt;/li&gt;
+&lt;li&gt;异常检测的标准不同，不好理解，应该加一个例子。&lt;/li&gt;
+&lt;li&gt;我们在上文给出两个挑战，我们介绍自己的方法，时应该着重说明自己提出两个模块，对应解决这两个难题。&lt;/li&gt;
+&lt;li&gt;摘要要逻辑通顺，可以相对简洁，不一定需要说明每一步的内容。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;注：智能车辆的路径规划问题，那么这个问题，车辆需要计算资源也需要事故检测方法。&lt;/p&gt;
+&lt;h3 id=&#34;引言第一段&#34;&gt;引言第一段&lt;/h3&gt;
+&lt;hr&gt;
+&lt;p&gt;&amp;quot; In recent years, the continuous advancement of vehicle intelligence has led to a substantial increase in the demand for computational resources [4]. Compared with cloud servers, edge servers (ESs) having computation resources closer to end users [5], can effectively reduce the network latency associated with in-vehicle applications.&amp;quot;&lt;/p&gt;
+&lt;p&gt;1、第一句话，修改，实时车载应用对低延迟计算资源的需求加剧，例如：分析道路环境时，需要大量计算资源。&lt;/p&gt;
+&lt;p&gt;&amp;quot; Therefore, considering real-time accident and computational resources of ESs in route planning ensures the seamless performance of vehicle applications and minimize vehicle stop-and-wait times.&amp;quot;&lt;/p&gt;
+&lt;p&gt;2、后面又说计算能力，有问题。&lt;strong&gt;应该是考虑时延的计算能力&lt;/strong&gt;。（按照第一点的修改，这里就不需要变了）&lt;/p&gt;
+&lt;h3 id=&#34;引言第二段&#34;&gt;引言第二段&lt;/h3&gt;
+&lt;hr&gt;
+&lt;p&gt;第一段，应该讲文章的一个大的领域。&lt;/p&gt;
+&lt;p&gt;第二段，在更细的场景内存在什么问题。&lt;/p&gt;
+&lt;p&gt;第三段，在这个更细的场景下，现有工作不能解决存在的问题，为什么。&lt;/p&gt;
+&lt;p&gt;第四段，我们从什么样的角度出发可以解决上述存在的问题。&lt;/p&gt;
+&lt;p&gt;注：可以在InfoCom上找找（计算网络，CCF A 会议）&lt;/p&gt;
+&lt;p&gt;&amp;quot; Currently, research on integrating computational resources of ESs into route planning remains limited.&amp;quot; 这句话很弱，因为研究文章少可能是因为这个问题没有什么研究意义。&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;Therefore, designing route planning algorithms that consider computational resources of ESs based on real-time accident detection methods presents the following challenges:&amp;rdquo; 和上面的内容理不顺。&lt;/p&gt;
+&lt;p&gt;“ Route planning refers to the process of calculating the optimal driving route within a given transportation network to meet specific objectives or constraints. ”&lt;/p&gt;
+&lt;p&gt;引言修改内容：&lt;/p&gt;
+&lt;p&gt;​	随着自动驾驶技术与车路协同系统的快速发展，智能网联车辆（Intelligent and Connected Vehicles, ICVs）正成为未来交通体系的核心。在智能交通系统中，路径规划是实现车辆自主行驶、优化出行效率的重要技术。通过路径规划，车辆可减少能耗，规避拥堵与风险，同时提升交通流运行质量，保障道路安全，推动智能化出行。因此，研究高效、可靠的路径规划方法是智能交通体系发展的关键。&lt;/p&gt;
+&lt;p&gt;​	With the rapid development of autonomous driving technology and vehicle-road collaboration systems, Intelligent and Connected Vehicles (ICVs) are becoming the core of future transportation systems. In intelligent transportation systems, route planning serves as a critical technology for enabling autonomous driving and optimizing travel efficiency. Through route planning, vehicles can reduce energy consumption, avoid congestion and risks, while enhancing traffic flow efficiency, ensuring road safety, and promoting intelligent mobility. Therefore, researching efficient and reliable route planning methods is essential for the advancement of intelligent transportation systems.&lt;/p&gt;
+&lt;p&gt;​	在实际应用中，智能网联车辆的路径规划仍然面临诸多挑战。首先，车辆智能化水平的提升依赖于强大的计算资源支持，但传统集中式计算模式受限于网络延迟和单点故障，难以满足车辆在动态环境中的实时计算需求。例如：车载计算能力无法支撑多传感器融合的空间定位技术，导致自动驾驶功能失效。其次，动态交通环境中，道路事故的发生往往具有高度的随机性和复杂性，现有路径规划方法在事故检测方面缺乏对实时性和精确性的有效支持，导致突发事件的感知和响应能力不足，从而对车辆的行驶安全性和路径规划效率造成显著影响。&lt;/p&gt;
+&lt;p&gt;In practical applications, route planning for ICVs still faces numerous challenges. Firstly, the enhancement of vehicle intelligence relies heavily on robust computational resources. However, traditional centralized computing models are constrained by network latency, making it difficult to meet the real-time computational demands of vehicles in dynamic environments. For example, onboard computing capabilities are insufficient to support multi-sensor fusion for spatial localization, leading to the failure of autonomous driving functions. Secondly, in dynamic traffic environments, road accidents often exhibit a high degree of randomness and complexity. Existing route planning methods lack effective support for real-time and accurate accident detection, resulting in insufficient perception and response capabilities to sudden events. This significantly impacts both the driving safety of vehicles and the efficiency of route planning.&lt;/p&gt;
+&lt;p&gt;​	针对上述问题，近年来的研究在路径规划取得了一定进展。基于研究的目标，我们将现有的车辆路径规划算法分为三类：基于行驶距离的路径规划算法[6]-[11]、基于事故评估的路径规划算法[12]-[16]和基于任务迁移的路径规划算法[17]-[23]。第一类算法仅关注行驶距离，忽略了道路事故条件。异常事件受到多种时空因素的影响，这使得不同地点和时间的异常事件检测标准各不相同。多数基于事故评估的算法未能充分考虑交通数据的时空特性，导致异常事件检测的效果不佳。此外，这两类算法均未考虑路径中边缘服务的能力，难以满足车辆的计算需求。基于任务迁移的算法考虑了任务的移动特性，但仅评估了少数位置的边缘服务能力，这仍然无法满足车辆应用的整体需求。因此，设计整合边缘服务器分布和事故检测评估的路径规划方法需要克服以下挑战：&lt;/p&gt;
+&lt;p&gt;​&lt;/p&gt;
+&lt;h3 id=&#34;方法&#34;&gt;方法&lt;/h3&gt;
+&lt;hr&gt;
+&lt;p&gt;&amp;ldquo;In urban road networks, road accidents are typically reflected in the traffic dynamics of nearby intersections. Leveraging this observation, we construct a generative adversarial network (GAN)
+[25] to detect anomalous intersections. By jointly considering prediction loss and similarity variance, the model enhances the accuracy of accident detection.&amp;ldquo;前面的现象，并不能支撑我们使用GAN。GAN网络的重点是generative 。&lt;/p&gt;
+&lt;p&gt;修改的版本：&lt;/p&gt;
+&lt;p&gt;&amp;quot; In urban road networks, road accidents are typically reflected in the traffic dynamics of nearby intersections. Leveraging this observation, we propose a adversarial approach for intersection anomaly detection across spatiotemporal data. By jointly considering prediction loss and similarity variance, the model enhances the accuracy of accident detection. &amp;quot;&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;we propose a traffic anomaly detection method based on spatiotemporal graph convolutional adversarial network (STGAN).&amp;rdquo; 修改案例。&lt;/p&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>

@@ -1,4 +1,4 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://QiushiStaff.github.io/myblog/'
 languageCode = 'zh-cn'
 title = '我的博客'
 theme = 'hugo-theme-ladder'
