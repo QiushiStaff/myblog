@@ -24,7 +24,7 @@
         crossorigin="anonymous" media="screen" />
 
     <!-- 注入我们的自定义 CSS -->
-    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="stylesheet" href="{{ " css/custom.css" | relURL }}">
 
     {{ $highlight := resources.Get "scss/highlight/github-dark.min.css" | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $highlight.RelPermalink }}" />

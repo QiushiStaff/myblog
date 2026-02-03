@@ -1,22 +1,20 @@
-baseURL = 'https://QiushiStaff.github.io/myblog/'
+baseURL = 'https://qiushistaff.github.io/myblog/' # 确保全小写且包含子路径
 languageCode = 'zh-cn'
 title = '我的博客'
 theme = 'hugo-theme-ladder'
 defaultContentLanguage = 'zh'
 
-# --- 关键设置：控制摘要和截断 ---
-hasCJKLanguage = true      # 开启中日韩语言支持，否则中文摘要截断会失效！
-summaryLength = 60         # 首页只显示前 60 个字，超过的显示 "Read More"
+# --- 关键设置：解决子目录部署问题 ---
+relativeURLs = true         # 强制使用相对路径，解决 CSS 不加载的问题
+canonifyURLs = false        # 配合上面的设置
+hasCJKLanguage = true
+summaryLength = 60
 
 [params]
     author = "你的名字"
     authorDescription = "你的简介"
-    math = true # 开启数学公式支持
-    # Ladder 主题特定设置：显示阅读时间等
+    math = true
     show_read_time = true 
-    
-    # 这里的设置可以让首页看起来更像一个纯目录
-    # 部分主题支持把首页布局设为 list，但 Ladder 默认就是 list
 
 [markup]
   [markup.goldmark]
@@ -26,13 +24,12 @@ summaryLength = 60         # 首页只显示前 60 个字，超过的显示 "Rea
 [languages.zh]
     languageName = "中文"
     
-    # 这里的菜单设置
     [[languages.zh.menu.main]]
-        name = "首页"      # 建议加一个回首页的按钮
-        url = "/"
+        name = "首页"
+        url = "/"          # Hugo 会自动处理为 /myblog/
         weight = 1
 
     [[languages.zh.menu.main]]
-        name = "所有文章"   # 点击这里会进入纯归档目录
-        url = "/blog"      # 对应 content/blog 文件夹
+        name = "文章"
+        url = "blog"       # 不要以 / 开头，使用相对路径
         weight = 2
