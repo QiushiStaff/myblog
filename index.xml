@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>我的博客</title>
-    <link>https://QiushiStaff.github.io/myblog/</link>
+    <link>https://qiushistaff.github.io/myblog/</link>
     <description>Recent content on 我的博客 created by </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 27 Oct 2023 10:30:00 +0800</lastBuildDate><atom:link href="https://QiushiStaff.github.io/myblog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 Oct 2023 10:30:00 +0800</lastBuildDate><atom:link href="https://qiushistaff.github.io/myblog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>DCdetector：用于时间序列异常检测的双重注意对比表征学习（2023，KDD，SCI一区，有代码）</title>
-      <link>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/dcdetector_-dual-attention-contrastive-representation-learning-for-time-series-anomaly-detection/</link>
+      <link>https://qiushistaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/dcdetector_-dual-attention-contrastive-representation-learning-for-time-series-anomaly-detection/</link>
       <pubDate>Fri, 27 Oct 2023 10:30:00 +0800</pubDate>
       
-      <guid>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/dcdetector_-dual-attention-contrastive-representation-learning-for-time-series-anomaly-detection/</guid>
+      <guid>https://qiushistaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/dcdetector_-dual-attention-contrastive-representation-learning-for-time-series-anomaly-detection/</guid>
       <description>&lt;h1 id=&#34;dcdetector用于时间序列异常检测的双重注意对比表征学习2023kddsci一区有代码&#34;&gt;DCdetector：用于时间序列异常检测的双重注意对比表征学习（2023，KDD，SCI一区，有代码）&lt;/h1&gt;
 &lt;p&gt;&lt;img src=&#34;..%5C..%5Carticle_images%5C1736487673881-9e5fe903-b6c7-4aac-bb3b-868ea0c3a118.png&#34; alt=&#34;框架图&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;背景:&lt;/strong&gt; 时间序列异常检测在工业监测、金融欺诈检测、故障诊断等多个领域具有重要意义。随着传感器技术发展，大量时间序列数据被收集，及时发现异常对保障安全和避免经济损失极为重要。&lt;/p&gt;
@@ -196,10 +196,10 @@ self.optimizer.step()
     
     <item>
       <title>TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）</title>
-      <link>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/timesurl%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
+      <link>https://qiushistaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/timesurl%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Fri, 27 Oct 2023 10:30:00 +0800</pubDate>
       
-      <guid>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/timesurl%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
+      <guid>https://qiushistaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/timesurl%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
       <description>&lt;h3 id=&#34;timesurlaaai-2023-githubhttpsgithubcomalrashtimesurl&#34;&gt;TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）&lt;/h3&gt;
 &lt;h3 id=&#34;introduction&#34;&gt;Introduction&lt;/h3&gt;
 &lt;h5 id=&#34;出发点&#34;&gt;出发点：&lt;/h5&gt;
@@ -253,13 +253,13 @@ self.optimizer.step()
     
     <item>
       <title>论文写作总结</title>
-      <link>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C%E6%80%BB%E7%BB%93/</link>
+      <link>https://qiushistaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C%E6%80%BB%E7%BB%93/</link>
       <pubDate>Fri, 27 Oct 2023 10:30:00 +0800</pubDate>
       
-      <guid>https://QiushiStaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C%E6%80%BB%E7%BB%93/</guid>
+      <guid>https://qiushistaff.github.io/myblog/blog/%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C%E6%80%BB%E7%BB%93/</guid>
       <description>&lt;h3 id=&#34;摘要&#34;&gt;摘要&lt;/h3&gt;
 &lt;hr&gt;
-&lt;img src=&#34;https://QiushiStaff.github.io/myblog/assets/write_abstract.png&#34; alt=&#34;摘要示例&#34; style=&#34;zoom:150%;&#34; /&gt;
+&lt;img src=&#34;./assets/write_abstract.png&#34; alt=&#34;摘要示例&#34; style=&#34;zoom:150%;&#34; /&gt;
 &lt;ol&gt;
 &lt;li&gt;第一句话：出现了很多专业名词，应该先做铺垫。最开始用大家都熟悉的概念去引入。举例子：路径规划是一个热门的研究方向，没有考虑到交通事故和边缘服务能力的路径规划会影响车辆性能，例如什么什么。因此，研究整合边缘服务能力评估和事故检测的路径规划方法是有价值的。然而，现有工作对于&lt;em&gt;交通网络时空特征挖掘不充分&lt;/em&gt;（重新考虑应该原因，适合与gan），导致车辆难以完全规避车辆，同时缺乏对边缘服务器分布情况的分析，导致车辆难以获得边缘服务器提供的计算能力。 因此，我们设计了基于交通时空数据的异常事件检测模型，模型基于时空特征挖掘方法设计鉴别器，基于相似度差异构建判别器，两者通过对抗训练提升异常识别效果。此外，我们考虑车辆移动特性，设计了车辆路径边缘服务能力评估方法。基于此，我们的方法考虑边缘服务器的分布情况设计路经规划方法。&lt;/li&gt;
 &lt;li&gt;异常检测的标准不同，不好理解，应该加一个例子。&lt;/li&gt;
