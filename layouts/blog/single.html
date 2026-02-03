@@ -1,0 +1,25 @@
+{{ define "content" }}
+<div class="blog-single-container">
+    <!-- 侧边栏目录 -->
+    <aside class="sidebar-toc">
+        <div class="toc-title">目录</div>
+        {{ .TableOfContents }}
+    </aside>
+
+    <article class="blog-single">
+        <header class="blog-title">
+            <h1>{{ .Title }}</h1>
+        </header>
+
+        {{ partial "blog/meta.html" . }}
+
+        <section class="blog-content">
+            {{ .Content }}
+        </section>
+
+        {{ partial "blog/series.html" . }}
+        {{ partial "common/utteranc.html" . }}
+        {{ partial "common/giscus.html" . }}
+    </article>
+</div>
+{{ end }}

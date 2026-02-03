@@ -1,0 +1,17 @@
+{{ define "content" }}
+<div class="blog-wrapper">
+    <div class="blog-list">
+        {{ range (where .Site.RegularPages "Section" "blog") }}
+        <article>
+            <div class="blog-card">
+                <div class="blog-date">{{ .Date.Format "2006-01-02" }}</div>
+                <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+                {{ with .Params.description }}
+                <p class="blog-desc">{{ . }}</p>
+                {{ end }}
+            </div>
+        </article>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
