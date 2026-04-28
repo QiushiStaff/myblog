@@ -1,4 +1,201 @@
-/* 侧边栏布局：将 TOC 放到文章左侧或右侧 */
+body {
+    background:
+        radial-gradient(circle at top left, rgba(216, 231, 255, 0.7), transparent 28rem),
+        linear-gradient(180deg, #f8fbff 0%, #fefefe 45%, #f5f7fb 100%);
+}
+
+.navigation .container,
+.wrapper,
+.blog-single-container,
+.page-single {
+    max-width: 1180px;
+}
+
+.academic-home {
+    padding: 2rem 1.5rem 4rem;
+}
+
+.hero-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(220px, 0.9fr);
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem;
+    border: 1px solid rgba(24, 58, 107, 0.08);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 16px 50px rgba(14, 37, 72, 0.08);
+}
+
+.hero-kicker {
+    margin-bottom: 0.6rem;
+    color: #47617f;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.hero-panel h1 {
+    margin-bottom: 0.8rem;
+    color: #10233d;
+    font-size: clamp(2.3rem, 4vw, 3.7rem);
+    line-height: 1.05;
+}
+
+.hero-lead {
+    margin-bottom: 1rem;
+    color: #1c4f7f;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.hero-body {
+    color: #37475c;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+}
+
+.hero-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.15rem;
+    border: 1px solid rgba(27, 76, 126, 0.16);
+    border-radius: 999px;
+    background: #fff;
+    color: #173a5d;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.hero-button.primary {
+    background: linear-gradient(135deg, #0d6d8f 0%, #0c4f7d 100%);
+    color: #fff;
+}
+
+.hero-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(18, 54, 93, 0.12);
+}
+
+.hero-avatar {
+    display: flex;
+    justify-content: center;
+}
+
+.hero-avatar img {
+    width: min(100%, 260px);
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 28px;
+    border: 6px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 20px 45px rgba(17, 49, 87, 0.16);
+}
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+.page-card,
+.post-card,
+.empty-card,
+.page-single,
+.blog-card {
+    border: 1px solid rgba(24, 58, 107, 0.08);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 14px 40px rgba(15, 40, 73, 0.06);
+}
+
+.page-card {
+    padding: 1.4rem;
+}
+
+.page-card h2,
+.post-card h3 {
+    margin-bottom: 0.65rem;
+    color: #122942;
+}
+
+.page-card p,
+.post-card p,
+.empty-card p {
+    margin-bottom: 0;
+    color: #4b5d72;
+}
+
+.home-section {
+    margin-top: 2rem;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.section-heading h1,
+.section-heading h2 {
+    margin-bottom: 0;
+    color: #10233d;
+}
+
+.section-heading a {
+    color: #0f5b8c;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.post-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.post-card,
+.empty-card {
+    padding: 1.3rem 1.4rem;
+}
+
+.post-meta,
+.blog-date {
+    font-size: 0.9rem;
+    color: #70839a;
+}
+
+.page-single {
+    margin: 2rem auto 4rem;
+    padding: 2rem;
+}
+
+.page-single .page-title h1 {
+    margin-bottom: 0.8rem;
+}
+
+.page-single .page-desc {
+    margin-bottom: 2rem;
+    color: #4e6278;
+    font-size: 1rem;
+}
+
+.page-single .page-content h2,
+.page-single .page-content h3 {
+    color: #132843;
+}
+
 .blog-single-container {
     display: flex;
     max-width: 1200px;
@@ -9,7 +206,7 @@
 
 .blog-single {
     flex: 1;
-    min-width: 0; /* 防止内容超出容器 */
+    min-width: 0;
 }
 
 .sidebar-toc {
@@ -48,28 +245,40 @@
     color: #000;
 }
 
-/* 响应式：小屏幕隐藏侧边栏 */
-@media (max-width: 900px) {
-    .blog-single-container {
-        flex-direction: column;
-    }
-    .sidebar-toc {
-        display: none; /* 手机端可以隐藏或者改为顶部折叠 */
-    }
-}
-
-/* 首页目录列表样式优化 */
-.blog-date {
-    font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 0.5rem;
-}
 .blog-desc {
     color: #555;
     font-size: 0.95rem;
     margin-top: 0.5rem;
 }
+
 .blog-card {
-    padding: 1.5rem 0 !important;
-    border-bottom: 1px solid #f0f0f0 !important;
+    padding: 1.35rem 1.5rem !important;
+}
+
+@media (max-width: 960px) {
+    .hero-panel,
+    .home-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .academic-home,
+    .page-single {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 900px) {
+    .blog-single-container {
+        flex-direction: column;
+    }
+
+    .sidebar-toc {
+        display: none;
+    }
 }

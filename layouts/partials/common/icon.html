@@ -1,0 +1,7 @@
+{{ $icon := site.Params.favicon | default "images/avatar.png" }}
+{{ $iconURL := printf "%s%s" site.BaseURL $icon }}
+<link rel="icon" href="{{ $iconURL }}" sizes="16x16">
+
+<link rel="apple-touch-icon" href="{{ $iconURL }}">
+
+<link rel="manifest" href="{{ $iconURL }}">

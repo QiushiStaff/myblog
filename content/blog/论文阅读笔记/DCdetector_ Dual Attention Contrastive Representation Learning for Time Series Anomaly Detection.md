@@ -2,8 +2,9 @@
 title: "DCdetector：用于时间序列异常检测的双重注意对比表征学习（2023，KDD，SCI一区，有代码）"
 date: 2023-10-27T10:30:00+08:00
 draft: true
-featured: true
-description: "这是一个关于Hugo的简短介绍"
+featured: false
+description: "围绕 DCdetector 的双重注意力、对比建模与异常分数设计的阅读草稿。"
+tags: ["时间序列", "异常检测", "论文阅读"]
 ---
 
 # DCdetector：用于时间序列异常检测的双重注意对比表征学习（2023，KDD，SCI一区，有代码）
@@ -277,6 +278,5 @@ In-patch Representation表示分块内部的特征，捕捉每个分块内部的
 **<font style="color:rgb(64, 64, 64);">Scale Dot-product Attention？</font>**
 
 <font style="color:rgb(64, 64, 64);">主要作用是通过动态分配注意力权重，捕捉输入序列中的全局依赖关系。</font>
-
 
 

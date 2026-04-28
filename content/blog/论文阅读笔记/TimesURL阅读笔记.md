@@ -2,8 +2,9 @@
 title: "TimesURL（AAAI, 2023, Github:https://github.com/Alrash/TimesURL）"
 date: 2023-10-27T10:30:00+08:00
 draft: true
-featured: true
-description: "这是一个关于Hugo的简短介绍"
+featured: false
+description: "围绕 TimesURL 的时间序列表示学习方法与对比学习设计的阅读草稿。"
+tags: ["时间序列", "论文阅读", "表示学习"]
 ---
 
 
@@ -122,4 +123,3 @@ description: "这是一个关于Hugo的简短介绍"
 
 
 $  A \xrightarrow{\text{text above}} B$
-

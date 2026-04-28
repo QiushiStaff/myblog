@@ -1,35 +1,80 @@
-baseURL = 'https://qiushistaff.github.io/myblog/' # 确保全小写且包含子路径
+baseURL = 'https://qiushistaff.github.io/myblog/' # GitHub Pages 项目页需包含仓库子路径
 languageCode = 'zh-cn'
-title = '我的博客'
+title = 'Lucky J · 学术主页'
+description = '分享论文阅读、科研笔记、时间序列分析与学术写作思考。'
 theme = 'hugo-theme-ladder'
 defaultContentLanguage = 'zh'
+cleanDestinationDir = true
 
-# --- 关键设置：解决子目录部署问题 ---
-relativeURLs = true         # 强制使用相对路径，解决 CSS 不加载的问题
-canonifyURLs = false        # 配合上面的设置
+# 主题本身使用 relPermalink/relURL，项目页部署时保持站点相对 URL 更稳定。
+relativeURLs = false
+canonifyURLs = false
 hasCJKLanguage = true
 summaryLength = 60
 
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
+
 [params]
-    author = "你的名字"
-    authorDescription = "你的简介"
+    author = "Lucky J"
+    authorDescription = "时间序列分析、异常检测与学术写作"
+    brand = "Lucky J"
+    description = "分享论文阅读、科研笔记、时间序列分析与学术写作思考。"
+    info = "这里主要记录我的研究兴趣、论文阅读笔记，以及围绕**时间序列分析**、**异常检测**、**智能交通**和**学术写作**的长期积累。"
+    avatarURL = "images/avatar.png"
+    favicon = "images/avatar.png"
     math = true
-    show_read_time = true 
+    show_read_time = true
+    mainSections = ["blog"]
+
+    [params.assets]
+        favicon = "images/avatar.png"
+
+    [params.schema]
+        publisherType = "Person"
+        sameAs = ["https://github.com/QiushiStaff"]
+
+    [params.options]
+        showDarkMode = true
+        enableImgZooming = true
+        enableMultiLang = false
+        showMetaTags = true
+
+    [[params.social]]
+        name = "GitHub"
+        pre = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>'
+        url = "https://github.com/QiushiStaff"
 
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
-
+# 导航菜单
 [languages.zh]
     languageName = "中文"
-    
+
     [[languages.zh.menu.main]]
         name = "首页"
-        url = "/"          # Hugo 会自动处理为 /myblog/
+        url = "/"
         weight = 1
 
     [[languages.zh.menu.main]]
-        name = "文章"
-        url = "blog"       # 不要以 / 开头，使用相对路径
+        name = "研究方向"
+        url = "/research"
         weight = 2
+
+    [[languages.zh.menu.main]]
+        name = "论文与成果"
+        url = "/publications"
+        weight = 3
+
+    [[languages.zh.menu.main]]
+        name = "文章"
+        url = "/blog"
+        weight = 4
+
+    [[languages.zh.menu.main]]
+        name = "关于"
+        url = "/about"
+        weight = 5

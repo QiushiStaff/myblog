@@ -1,0 +1,90 @@
+{{ $icon := site.Params.assets.favicon | default "images/avatar.png" }}
+{{ $iconURL := printf "%s%s" site.BaseURL $icon }}
+
+{{ if .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{- (site.Params.schema.publisherType | default "Person") | title -}}",
+  "name": {{ site.Params.author | default site.Title }},
+  "url": {{ site.BaseURL }},
+  "description": {{ site.Params.description | plainify | truncate 180 | safeHTML }},
+  "thumbnailUrl": {{ $iconURL }},
+  "sameAs": [
+    {{- range $i, $e := site.Params.schema.sameAs }}{{ if $i }}, {{ end }}{{ trim $e " " }}{{ end }}
+  ]
+}
+</script>
+{{- else if (or .IsPage .IsSection) }}
+{{- $url := replace .Parent.Permalink (printf "%s" site.BaseURL) "" }}
+{{- $langURL := strings.TrimPrefix (printf "%s/" .Lang) $url }}
+{{- $bcList := (split $langURL "/")}}
+{{- $scratch := newScratch }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+  {{- range $index, $element := $bcList }}
+    {{- $scratch.Add "path" (printf "%s/" $element ) | safeJS }}
+    {{- $bcPage := site.GetPage ($scratch.Get "path") -}}
+    {{- if (and ($bcPage) (gt (len . ) 0))}}
+    {{- if (and $index)}}, {{end }}
+    {
+      "@type": "ListItem",
+      "position": {{ add 1 $index  }},
+      "name": {{ $bcPage.Name }},
+      "item": {{ $bcPage.Permalink | safeHTML }}
+    }
+    {{- end }}
+  {{- end }}
+  {{- if (ge (len $bcList) 2) }}, {{end }}
+    {
+      "@type": "ListItem",
+      "position": {{len $bcList}},
+      "name": {{ .Name }},
+      "item": {{ .Permalink | safeHTML }}
+    }
+  ]
+}
+</script>
+{{- if .IsPage }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ .Title | plainify }},
+  "name": "{{ .Title | plainify }}",
+  "description": {{ with .Description | plainify }}{{ . }}{{ else }}{{ .Summary | plainify }}{{ end -}},
+  "keywords": [
+    {{- if .Params.keywords }}
+    {{ range $i, $e := .Params.keywords }}{{ if $i }}, {{ end }}{{ $e }}{{ end }}
+    {{- else }}
+    {{ range $i, $e := .Params.tags }}{{ if $i }}, {{ end }}{{ $e }}{{ end }}
+    {{- end }}
+  ],
+  "articleBody": {{ .Content | safeJS | htmlUnescape | plainify }},
+  "wordCount": "{{ .WordCount }}",
+  "inLanguage": {{ .Language.Lang | default "zh-cn" }},
+  "datePublished": {{ .PublishDate }},
+  "dateModified": {{ .Lastmod }},
+  "author": {
+    "@type": "Person",
+    "name": {{ .Params.author | default site.Params.author }}
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": {{ .Permalink | safeHTML }}
+  },
+  "publisher": {
+    "@type": "{{- (site.Params.schema.publisherType | default "Person") | title -}}",
+    "name": {{ site.Params.author | default site.Title }},
+    "logo": {
+      "@type": "ImageObject",
+      "url": {{ $iconURL }}
+    }
+  }
+}
+</script>
+{{- end }}
+{{- end -}}

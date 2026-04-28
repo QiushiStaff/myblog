@@ -1,0 +1,36 @@
+{{ define "content" }}
+<div class="blog-wrapper">
+    <div>
+        <div class="section-heading">
+            <div>
+                <h1>{{ .Title }}</h1>
+                {{ with .Description }}
+                <p class="page-desc">{{ . }}</p>
+                {{ end }}
+            </div>
+        </div>
+
+        <div class="blog-list">
+            {{ if gt (len .Paginator.Pages) 0 }}
+            {{ range .Paginator.Pages }}
+            <article>
+                <div class="blog-card">
+                    <div class="blog-date">{{ .Date.Format "2006-01-02" }}</div>
+                    <h3><a href="{{ .RelPermalink }}">{{ .Params.title }}</a></h3>
+                    {{ with .Description }}
+                    <p class="blog-desc">{{ . }}</p>
+                    {{ else }}
+                    <p class="blog-desc">{{ .Summary | plainify }}</p>
+                    {{ end }}
+                </div>
+            </article>
+            {{ end }}
+            {{ else }}
+            <div class="empty-card">
+                <p>这里会持续更新公开研究笔记、论文阅读记录与写作心得。</p>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</div>
+{{ end }}
