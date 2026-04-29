@@ -1,8 +1,10 @@
 {{ define "content" }}
 <div class="blog-single-container">
-    <!-- 侧边栏目录 -->
+    <!-- 侧边栏：目录层级 -->
     <aside class="sidebar-toc">
-        <div class="toc-title">目录</div>
+        {{ partial "blog/sidebar-tree.html" . }}
+        <hr class="sidebar-divider">
+        <div class="toc-title">本文大纲</div>
         {{ .TableOfContents }}
     </aside>
 

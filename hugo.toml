@@ -22,14 +22,14 @@ summaryLength = 60
     brand = "Lucky J"
     description = "分享论文阅读、科研笔记、时间序列分析与学术写作思考。"
     info = "这里主要记录我的研究兴趣、论文阅读笔记，以及围绕**时间序列分析**、**异常检测**、**智能交通**和**学术写作**的长期积累。"
-    avatarURL = "images/avatar.png"
-    favicon = "images/avatar.png"
+    avatarURL = "images/profile.jpg"
+    favicon = "images/profile.jpg"
     math = true
     show_read_time = true
     mainSections = ["blog"]
 
     [params.assets]
-        favicon = "images/avatar.png"
+        favicon = "images/profile.jpg"
 
     [params.schema]
         publisherType = "Person"
@@ -50,6 +50,10 @@ summaryLength = 60
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 6
+    ordered = false
 # 导航菜单
 [languages.zh]
     languageName = "中文"

@@ -29,7 +29,15 @@
     <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}"
         crossorigin="anonymous" media="screen" />
 
-    <link rel="stylesheet" href="{{ "css/custom.css" | relURL }}">
+    {{ with resources.Get "css/custom.css" }}
+        {{ $custom := . | minify | fingerprint }}
+        <link rel="stylesheet" href="{{ $custom.RelPermalink }}" integrity="{{ $custom.Data.Integrity }}" crossorigin="anonymous" />
+    {{ end }}
+    
+    {{ with resources.Get "css/main.css" }}
+        {{ $main := . | minify | fingerprint }}
+        <link rel="stylesheet" href="{{ $main.RelPermalink }}" integrity="{{ $main.Data.Integrity }}" crossorigin="anonymous" />
+    {{ end }}
 
     {{ $highlight := resources.Get "scss/highlight/github-dark.min.css" | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $highlight.RelPermalink }}" />

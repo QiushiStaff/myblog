@@ -1,0 +1,20 @@
+<div class="sidebar-tree">
+  <div class="tree-header">
+    <span class="tree-title">资源管理器</span>
+    <span class="tree-subtitle">BLOG</span>
+  </div>
+  <div class="tree-content">
+    {{ $allPages := where .Site.RegularPages "Section" "blog" }}
+    <ul class="tree-root">
+      {{ partial "blog/tree-node.html" (dict "context" . "nodePath" "blog/" "level" 0 "allPages" $allPages) }}
+    </ul>
+  </div>
+</div>
+
+<script>
+function toggleTreeNode(element) {
+  const node = element.parentElement;
+  node.classList.toggle('collapsed');
+  event.stopPropagation();
+}
+</script>

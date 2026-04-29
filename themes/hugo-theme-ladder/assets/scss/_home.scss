@@ -1,7 +1,7 @@
 .home {
   width: 100%;
   height: 100%;
-  max-width: 80rem;
+  max-width: 100rem;
   margin: 1rem auto;
 
   .info {
@@ -9,6 +9,8 @@
     width: 100%;
     padding-left: 2rem;
     padding-right: 2rem;
+    gap: 4rem;
+    align-items: center;
 
     @media only screen and (max-width: 768px) {
       display: block;
@@ -16,14 +18,15 @@
 
     .intro {
       margin-top: 0.5rem;
-      float: left;
-      height: 20rem;
-      width: 70%;
+      float: none;
+      height: auto;
+      width: auto;
+      flex: 1;
 
       h1 {
         margin-bottom: 0;
-        font-size: 4.2rem;
-        line-height: 4.6rem;
+        font-size: 4.8rem;
+        line-height: 5rem;
 
         @media only screen and (max-width: 768px) {
           font-size: 2.2rem;
@@ -42,12 +45,13 @@
         margin-top: 2rem;
         float: none;
         width: 100%;
-        height: 10rem;
+        height: auto;
       }
     }
 
     .avatar {
-      width: 30%;
+      width: auto;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;

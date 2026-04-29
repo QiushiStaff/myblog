@@ -1,0 +1,3 @@
+{{ range where .Site.RegularPages "Section" "blog" }}
+  <p>File: {{ .File.Path }} | Dir: {{ .File.Dir }}</p>
+{{ end }}

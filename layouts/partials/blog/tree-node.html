@@ -1,0 +1,53 @@
+{{ $context := .context }} {{/* The page context of the current view */}}
+{{ $nodePath := .nodePath }} {{/* The directory path we are currently rendering, e.g., "blog/notes/" */}}
+{{ $level := .level }} {{/* Indentation level */}}
+{{ $allPages := .allPages }} {{/* All blog pages */}}
+
+{{/* 1. Render subdirectories (folders) first */}}
+{{ $subdirs := slice }}
+{{ range $allPages }}
+    {{ if (strings.HasPrefix .File.Dir $nodePath) }}
+        {{ $relDir := strings.TrimPrefix $nodePath .File.Dir }}
+        {{ if and (ne $relDir "") (ne $relDir "/") }}
+            {{/* Get the first segment of the remaining path */}}
+            {{ $segment := index (split (strings.TrimLeft "/" $relDir) "/") 0 }}
+            {{ $subdirs = $subdirs | append (printf "%s%s/" $nodePath $segment) }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{ range ($subdirs | uniq | sort) }}
+    {{ $thisDir := . }}
+    {{ $dirName := index (last 1 (split (strings.TrimRight "/" $thisDir) "/")) 0 }}
+    
+    {{/* Check if current page is inside this directory to determine if it should be expanded */}}
+    {{ $isOpen := strings.HasPrefix $context.File.Dir $thisDir }}
+    
+    <li class="tree-node tree-folder {{ if not $isOpen }}collapsed{{ end }}" data-level="{{ $level }}">
+        <div class="node-wrapper folder-wrapper" onclick="toggleTreeNode(this)">
+            <span class="node-icon folder-icon">
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <svg class="folder-img" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+            </span>
+            <span class="node-name">{{ $dirName }}</span>
+        </div>
+        <ul class="node-children">
+            {{ partial "blog/tree-node.html" (dict "context" $context "nodePath" $thisDir "level" (add $level 1) "allPages" $allPages) }}
+        </ul>
+    </li>
+{{ end }}
+
+{{/* 2. Render pages (files) in this directory */}}
+{{ range $allPages }}
+    {{ if eq .File.Dir $nodePath }}
+        {{ $isActive := eq $context.RelPermalink .RelPermalink }}
+        <li class="tree-node tree-file {{ if $isActive }}active{{ end }}" data-level="{{ $level }}">
+            <a class="node-wrapper file-wrapper" href="{{ .RelPermalink }}">
+                <span class="node-icon file-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </span>
+                <span class="node-name">{{ .Title }}</span>
+            </a>
+        </li>
+    {{ end }}
+{{ end }}
