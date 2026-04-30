@@ -25,7 +25,7 @@ draft: false
 #### 	Method：
 
 <div style="text-align: center;">
-    <img src="/article_images/image-20250212104354440.png" width="550" height="420" />
+    <img src="/myblog/article_images/image-20250212104354440.png" width="550" height="420" />
 </div>
 1. Speech Tokenizaion：连续的语音信息$\rightarrow$离散的token，包含语义信息和部分声学信息。
 
@@ -67,7 +67,7 @@ draft: false
 #### 代码的推理细节
 
 <div style="text-align: center;">
-    <img src="/article_images/image-20250220102733456-1740018455359-13-1740018456598-15.png" width="500" height="650" />
+    <img src="/myblog/article_images/image-20250220102733456-1740018455359-13-1740018456598-15.png" width="500" height="650" />
 </div>
 
 

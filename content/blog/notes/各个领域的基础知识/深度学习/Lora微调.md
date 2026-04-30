@@ -17,7 +17,7 @@ draft: false
    ​	LoRA 事实上就是一种改进的 Adapt Tuning 方法。但 Adapt Tuning 方法存在推理延迟问题，由于增加了额外参数和额外计算量，导致微调之后的模型计算速度相较原预训练模型更慢。	
 
    <div style="text-align: center;">
-       <img src="/article_images/image-20250224155649571-1740383813237-23-1740383814405-25-1740383816295-27.png" width="550" height="450" />
+       <img src="/myblog/article_images/image-20250224155649571-1740383813237-23-1740383814405-25-1740383816295-27.png" width="550" height="450" />
    </div>
 
    
